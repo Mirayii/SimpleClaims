@@ -8,6 +8,7 @@ import com.buuz135.simpleclaims.claim.party.PartyOverrides;
 import com.buuz135.simpleclaims.Main;
 import com.buuz135.simpleclaims.commands.CommandMessages;
 import com.buuz135.simpleclaims.gui.subscreens.ChunkListGui;
+import com.buuz135.simpleclaims.gui.subscreens.InteractGui;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
@@ -129,6 +130,12 @@ public class PartyInfoEditGui extends InteractiveCustomUIPage<PartyInfoEditGui.P
             if (action.equals("PVPSetting")) {
                 this.info.setOverride(new PartyOverride(PartyOverrides.PARTY_PROTECTION_PVP, new PartyOverride.PartyOverrideValue("bool", !this.info.isPVPEnabled())));
             }
+            if (action.equals("AllowEntrySetting")) {
+                this.info.setOverride(new PartyOverride(PartyOverrides.PARTY_PROTECTION_ALLOW_ENTRY, new PartyOverride.PartyOverrideValue("bool", !this.info.isAllowEntryEnabled())));
+            }
+            if (action.equals("FriendlyFireSetting")) {
+                this.info.setOverride(new PartyOverride(PartyOverrides.PARTY_PROTECTION_FRIENDLY_FIRE, new PartyOverride.PartyOverrideValue("bool", !this.info.isFriendlyFireEnabled())));
+            }
             UICommandBuilder commandBuilder = new UICommandBuilder();
             UIEventBuilder eventBuilder = new UIEventBuilder();
             this.build(ref, commandBuilder, eventBuilder, store);
@@ -151,6 +158,10 @@ public class PartyInfoEditGui extends InteractiveCustomUIPage<PartyInfoEditGui.P
         if (data.button != null) {
             if (data.button.equals("Invite") && this.inviteDropdown != null) {
                 if (player.hasPermission(CommandMessages.BASE_PERM + "create-invite")) {
+                    if (Main.CONFIG.get().getMaxPartyMembers() != -1 && (this.info.getMembers().length + ClaimManager.getInstance().getPartyInvites().values().stream().filter(partyInvite -> partyInvite.party().equals(this.info.getId())).count()) >= Main.CONFIG.get().getMaxPartyMembers()) {
+                        player.sendMessage(CommandMessages.PARTY_MEMBER_LIMIT_REACHED);
+                        return;
+                    }
                     if (!this.info.isMember(UUID.fromString(this.inviteDropdown))) {
                         var invited = Universe.get().getPlayer(UUID.fromString(this.inviteDropdown));
                         if (invited != null) {
@@ -169,6 +180,10 @@ public class PartyInfoEditGui extends InteractiveCustomUIPage<PartyInfoEditGui.P
                 }
             }
             if (data.button.equals("Allies") && this.alliesDropdown != null) {
+                if (Main.CONFIG.get().getMaxPartyAllies() != -1 && (this.info.getPartyAllies().size() + this.info.getPlayerAllies().size()) >= Main.CONFIG.get().getMaxPartyAllies()) {
+                    player.sendMessage(CommandMessages.PARTY_ALLY_LIMIT_REACHED);
+                    return;
+                }
                 var invited = Universe.get().getPlayer(UUID.fromString(this.alliesDropdown));
                 if (invited != null) { //IS Player
                     this.info.getPlayerAllies().add(invited.getUuid());
@@ -193,6 +208,10 @@ public class PartyInfoEditGui extends InteractiveCustomUIPage<PartyInfoEditGui.P
             }
             if (data.button.equals("SeeClaimedChunks")) {
                 player.getPageManager().openCustomPage(ref, store, new ChunkListGui(playerRef, this.info, this, this.isOpEdit));
+                return;
+            }
+            if (data.button.equals("EditInteract")) {
+                player.getPageManager().openCustomPage(ref, store, new InteractGui(playerRef, this.info, this, this.isOpEdit));
                 return;
             }
         }
@@ -321,17 +340,28 @@ public class PartyInfoEditGui extends InteractiveCustomUIPage<PartyInfoEditGui.P
         if (!isOpEdit)
             uiCommandBuilder.set("#BreakBlocksSetting #CheckBox.Disabled", !playerCanModify || !Main.CONFIG.get().isAllowPartyPlaceBlockSetting());
         uiCommandBuilder.set("#InteractBlocksSetting #CheckBox.Value",this.info.isBlockInteractEnabled());
-        if (!isOpEdit)
+        if (!isOpEdit) {
             uiCommandBuilder.set("#InteractBlocksSetting #CheckBox.Disabled", !playerCanModify || !Main.CONFIG.get().isAllowPartyInteractBlockSetting());
+            uiCommandBuilder.set("#EditInteractButton.Disabled", !playerCanModify || !Main.CONFIG.get().isAllowPartyInteractBlockSetting());
+        }
         uiCommandBuilder.set("#PVPSetting #CheckBox.Value", this.info.isPVPEnabled());
         if (!isOpEdit)
             uiCommandBuilder.set("#PVPSetting #CheckBox.Disabled", !playerCanModify || !Main.CONFIG.get().isAllowPartyPVPSetting());
+        uiCommandBuilder.set("#AllowEntrySetting #CheckBox.Value", this.info.isAllowEntryEnabled());
+        uiCommandBuilder.set("#AllowEntrySetting.Visible", Main.CONFIG.get().isEnableAlloyEntryTesting());
+        if (!isOpEdit)
+            uiCommandBuilder.set("#AllowEntrySetting #CheckBox.Disabled", !playerCanModify || !Main.CONFIG.get().isAllowPartyAllowEntrySetting());
+        uiCommandBuilder.set("#FriendlyFireSetting #CheckBox.Value", this.info.isFriendlyFireEnabled());
+        if (!isOpEdit)
+            uiCommandBuilder.set("#FriendlyFireSetting #CheckBox.Disabled", !playerCanModify || !Main.CONFIG.get().isAllowPartyFriendlyFireSetting());
 
         uiEventBuilder.addEventBinding(CustomUIEventBindingType.ValueChanged, "#PlaceBlocksSetting #CheckBox", EventData.of("RemoveButtonAction", "PlaceBlocksSetting:0"), false);
         uiEventBuilder.addEventBinding(CustomUIEventBindingType.ValueChanged, "#BreakBlocksSetting #CheckBox", EventData.of("RemoveButtonAction", "BreakBlocksSetting:0"), false);
         uiEventBuilder.addEventBinding(CustomUIEventBindingType.ValueChanged, "#InteractBlocksSetting #CheckBox", EventData.of("RemoveButtonAction", "InteractBlocksSetting:0"), false);
         uiEventBuilder.addEventBinding(CustomUIEventBindingType.ValueChanged, "#PVPSetting #CheckBox", EventData.of("RemoveButtonAction", "PVPSetting:0"), false);
-
+        uiEventBuilder.addEventBinding(CustomUIEventBindingType.ValueChanged, "#AllowEntrySetting #CheckBox", EventData.of("RemoveButtonAction", "AllowEntrySetting:0"), false);
+        uiEventBuilder.addEventBinding(CustomUIEventBindingType.ValueChanged, "#FriendlyFireSetting #CheckBox", EventData.of("RemoveButtonAction", "FriendlyFireSetting:0"), false);
+        uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#EditInteractButton", EventData.of("Button", "EditInteract"), false);
 
         uiCommandBuilder.set("#ClaimColorPickerGroup #ClaimColorPicker.Value", String.format("#%06X", (0xFFFFFF & this.info.getColor())));
         //uiCommandBuilder.set("#ClaimColorPickerGroup #ClaimColorPicker.IsReadOnly", !playerCanModify);

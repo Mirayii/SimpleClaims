@@ -153,8 +153,30 @@ $C.@PageOverlay {
             @Text = "Povolit Interakci Bloku";
             Padding: (Bottom: 4);
           }
+
+          $C.@TextButton #EditInteractButton {
+            Anchor: (Height: 22, Left: -20, Top: 0, Right: 10);
+            Padding: ();
+            Text: "  EDIT  ";
+            Style: @CustomStyle;
+          }
+
           $C.@CheckBoxWithLabel #PVPSetting {
             @Text = "PVP";
+            Padding: (Bottom: 4);
+          }
+
+          $C.@CheckBoxWithLabel #AllowEntrySetting {
+            @Text = "Allow Entry";
+            Padding: (Bottom: 4);
+          }
+        }
+
+        Group {
+          LayoutMode: Left;
+          Anchor: (Bottom: 10);
+          $C.@CheckBoxWithLabel #FriendlyFireSetting {
+            @Text = "Party PVP";
             Padding: (Bottom: 4);
           }
         }
@@ -253,7 +275,7 @@ $C.@PageOverlay {
           }
           Group #Members {
             LayoutMode: TopScrolling;
-            Anchor: (Bottom: 10, Height: 285);
+            Anchor: (Bottom: 10, Height: 250);
             ScrollbarStyle: $C.@DefaultScrollbarStyle;
 
             Group #MemberEntries {

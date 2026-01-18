@@ -1,9 +1,23 @@
 # 1.0.16
 
+* Fixed save button going off screen
+
+# 1.0.15
+
 * Added a claimed chunks list for the party, closes #50
 * Added a config option to change the title top line when entering a claim, closes #16
 * Fixed a bug where the admin-modify-chunk-all command wasn't updating parties amount if they had the same amount as the
   config
+* Added a config to filly protect worlds, closes #73
+* [EXPERIMENTAL - ENABLED ON THE CONFIG] Added a allow entry party setting that stops players from entering a claimed
+  chunk if they arent allowed. This is workaround for hytale's interaction bugs #40 #19
+* Added extra precautions for when file loading fails and added backups of those files
+* Added a chunk border system that will show particles when close to an edge of a claimed chunk, closes #79
+* Added a config option to configure blocks that will ignore all the restrictions
+* Added an option to remove pvp between party members (Friendly Fire), closes #23
+* Added a config option to limit how many party member and allies can a party have closes #20
+* Improved map so less detail is lost in claimed chunks
+* Added a config option to show the claim name on the map, disabled by default, closes #60
 
 # 1.0.14
 
