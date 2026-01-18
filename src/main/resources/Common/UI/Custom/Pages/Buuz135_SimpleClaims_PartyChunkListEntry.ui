@@ -35,7 +35,7 @@ Group {
     );
     Anchor: (Left: 10, Vertical: 0);
     Padding: (Right: 5);
-    Text: "Center: ";
+    Text: "Stred: ";
   }
 
   Label #ChunkPosName {

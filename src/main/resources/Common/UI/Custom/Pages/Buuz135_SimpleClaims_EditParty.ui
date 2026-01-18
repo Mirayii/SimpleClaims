@@ -126,7 +126,7 @@ $C.@PageOverlay {
 
         // Party Settings
         Label #MemberList {
-          Text: "Nastaveni Zabezpeceni Chunku";
+          Text: "Zabezpeceni chunku";
           Style: (
             RenderUppercase: true,
             RenderBold: true,
@@ -157,7 +157,7 @@ $C.@PageOverlay {
           $C.@TextButton #EditInteractButton {
             Anchor: (Height: 22, Left: -20, Top: 0, Right: 10);
             Padding: ();
-            Text: "  EDIT  ";
+            Text: "UPRAVIT";
             Style: @CustomStyle;
           }
 
@@ -167,7 +167,7 @@ $C.@PageOverlay {
           }
 
           $C.@CheckBoxWithLabel #AllowEntrySetting {
-            @Text = "Allow Entry";
+            @Text = "Povolit Vstup";
             Padding: (Bottom: 4);
           }
         }
@@ -210,7 +210,7 @@ $C.@PageOverlay {
             Anchor: (Bottom: 10);
             Padding: (Bottom: 2);
             Label {
-              Text: "Invite:";
+              Text: "Pozvat:";
               Style: (
                 FontSize: 15,
                 TextColor: #93844c,

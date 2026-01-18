@@ -20,7 +20,7 @@ $C.@PageOverlay {
 
       Group {
         $C.@Title #TitleText{
-          @Text = "INTERACTION SETTINGS";
+          @Text = "NASTAVENI INTERAKCI";
         }
 
       }
@@ -33,27 +33,27 @@ $C.@PageOverlay {
         LayoutMode: Top;
         Padding: (Left: 40);
           $C.@CheckBoxWithLabel #InteractBlocksSetting {
-            @Text = "Allow Block Interaction";
+            @Text = "Povolit Block Interakci";
             Padding: (Bottom: 4);
           }
           $C.@CheckBoxWithLabel #InteractChestSetting {
-            @Text = "Allow Chest Interaction";
+            @Text = "Povolit Chest Interakci";
             Padding: (Bottom: 4);
           }
           $C.@CheckBoxWithLabel #InteractDoorSetting {
-            @Text = "Allow Door Interaction";
+            @Text = "Povolit Door Interakci";
             Padding: (Bottom: 4);
           }
           $C.@CheckBoxWithLabel #InteractBenchSetting {
-            @Text = "Allow Bench Interaction";
+            @Text = "Povolit Bench Interakci";
             Padding: (Bottom: 4);
           }
           $C.@CheckBoxWithLabel #InteractChairSetting {
-            @Text = "Allow Chair Interaction";
+            @Text = "Povolit Chair Interakci";
             Padding: (Bottom: 4);
           }
           $C.@CheckBoxWithLabel #InteractPortalSetting {
-            @Text = "Allow Portal Interaction";
+            @Text = "Povolit Portal Interakci";
             Padding: (Bottom: 4);
           }
       }
