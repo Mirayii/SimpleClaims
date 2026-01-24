@@ -1,3 +1,22 @@
+# 1.0.21
+
+* Fixed database not being created properly on first run, closes #130
+* Fixed not being able to use the builders workbench closes #129
+
+# 1.0.20
+
+* World map now shows in the claim chunks GUI - ThatGravyBoat
+* Fix Creative Mode block breaks not being blocked + Fix WorldEventSystem block damage from breaking claimed chunks. -
+  Jaxkr
+* Fix coordinate rounding error for negative values due to narrowing casts - XAgent1990
+* Added claim amount permission, more info in CONFIG.md, closes #66
+* Fixed Admin Claiming Gui not working properly, closes #125
+* Removing saving thread to avoid sometimes not saving data in big environments, closes #119 closes #97
+* Added a claiming bypass for chunks that dont have valid parties, closes #108
+* Fix: fixed issue where players can use benches to craft using resources from others' claimed chests - spencerbass
+* Fixed `BlocksThatIgnoreInteractRestrictions` config not working properly, closes #112
+* Fixed interaction setting overriding block placing and breaking settings
+
 # 1.0.19
 
 * Replaced interactions with custom ones to allow claim protection, closes #40
